@@ -39,7 +39,7 @@ public class CheckLogin extends HttpServlet {
 			if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty()) {
 				throw new Exception("Missing or empty credential value");
 			} else {
-				usrService.createUser(usrn);
+				//usrService.createUser(usrn);
 			}
 				
 		} catch (Exception e) {

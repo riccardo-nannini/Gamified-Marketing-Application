@@ -5,14 +5,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
-/**
- * Entity implementation class for Entity: User1
- *
- */
 @Entity
 @Table(name = "user", schema = "gamified_db")
-
-
+@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2")
 public class User implements Serializable {
 
 	
@@ -36,7 +31,17 @@ public class User implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<QuestionnaireAnswer> answers;
 
+	public User() {
+		super();
+	}
 	
+	public User(String username, String password, String email) {
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.role = "User";
+		this.blocked = false;
+	} 
 
 	public int getId() {
 		return id;
@@ -117,12 +122,6 @@ public class User implements Serializable {
 
 	public void setBlocked(Boolean blocked) {
 		this.blocked = blocked;
-	}
-
-
-
-	public User() {
-		super();
 	}
    
 }
