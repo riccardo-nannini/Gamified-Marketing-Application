@@ -1,6 +1,8 @@
 package it.polimi.db2.entities;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
 /**
@@ -31,6 +33,8 @@ public class User implements Serializable {
 	
 	private Boolean blocked;
 	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
+	private List<QuestionnaireAnswer> answers;
 
 	
 
