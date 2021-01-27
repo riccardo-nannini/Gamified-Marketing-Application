@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="GamifiedMarketingApplicationWEB">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="GamifiedMarketingApplicationEJB.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/GamifiedMarketingApplicationEJB/GamifiedMarketingApplicationEJB">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="GamifiedMarketingApplicationWEB"/>
+        <property name="java-output-path" value="/GamifiedMarketingApplicationWEB/build/classes"/>
+    </wb-module>
+</project-modules>
