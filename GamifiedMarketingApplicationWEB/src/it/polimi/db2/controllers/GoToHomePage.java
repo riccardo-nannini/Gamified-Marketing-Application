@@ -2,6 +2,7 @@ package it.polimi.db2.controllers;
 
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -18,13 +19,19 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import it.polimi.db2.entities.Product;
+import it.polimi.db2.entities.Review;
 import it.polimi.db2.entities.User;
+import it.polimi.db2.services.ProductService;
+import it.polimi.db2.services.UserService;
 
 
 @WebServlet("/GoToHomePage")
 public class GoToHomePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
+	@EJB(name = "it.polimi.db2.services/ProductService")
+	private ProductService productService;
 	
 
 	public GoToHomePage() {
@@ -42,6 +49,8 @@ public class GoToHomePage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		//FARE CON IL FILTRO
 		// If the user is not logged in (not present in session) redirect to the login
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		HttpSession session = request.getSession();
@@ -49,24 +58,15 @@ public class GoToHomePage extends HttpServlet {
 			response.sendRedirect(loginpath);
 			return;
 		}
-
-		User user = (User) session.getAttribute("user");
 		
-
-		try {
-			 // missions = mService.findMissionsByUserRefresh(user.getId());
-			
-			//projects = pService.findAllProjects();
-		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
-			return;
-		}
-
+		//fare controllo in index che esista un product of the day?????
+		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
+		
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/Home.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-
+		ctx.setVariable("productOfTheDay", productOfTheDay);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 

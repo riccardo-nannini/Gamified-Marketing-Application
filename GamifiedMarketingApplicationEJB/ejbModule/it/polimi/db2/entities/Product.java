@@ -1,6 +1,7 @@
 package it.polimi.db2.entities;
 
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -111,7 +112,9 @@ public class Product implements Serializable {
 		this.image = photoimage;
 	}
 	
-	
+	public String getImageData() {
+		return Base64.getMimeEncoder().encodeToString(image);
+	}
 	
 
    

@@ -5,7 +5,23 @@
 <title>Home</title>
 </head>
 <body>
-	<h1>Welcome to the Gamified Marketing Application home page!</h1>
-	
+	<div align="right">
+		<a th:href="@{/Logout}">Logout</a>
+	</div>
+	<h1>Home Page</h1>
+	<p>Nice to see you again <span th:text="${session.user.username}"></span></p>
+	<br/>
+	<p> The product of the day is: <b th:text="${productOfTheDay.name}"></b>
+	<br/>
+	<img alt="photo"
+			th:src="*{'data:image/png;base64,'+ productOfTheDay.getImageData()}" width="400" height="300">
+	<br/>
+	Product reviews:
+	<br/>
+	<tr th:each="review: ${productOfTheDay.getReviews}">
+    	-<td th:text="${review.text}" /><br/>
+	</tr>
+	<br/>
+	<a th:href="@{/GoToMarketing}">Click here to go to the questionnaire page</a>
 </body>
 </html>
