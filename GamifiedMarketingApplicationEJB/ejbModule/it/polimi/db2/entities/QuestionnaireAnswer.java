@@ -1,6 +1,8 @@
 package it.polimi.db2.entities;
 
 import java.io.Serializable;
+import java.util.Map;
+
 import javax.persistence.*;
 
 /**
@@ -9,6 +11,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "questionnarieanswer", schema = "gamified_db")
+@NamedQuery(name = "QuestionnaireAnswer.findByProduct",
+	query = "SELECT q FROM QuestionnaireAnswer q WHERE q.product.id = :prodId")
 public class QuestionnaireAnswer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -28,10 +32,15 @@ public class QuestionnaireAnswer implements Serializable {
 	@JoinColumn(name = "userID")
 	private User user;
 	
-	//@ManyToOne
-	//@JoinColumn(name = "userID")
-	//private  product;
+	@ManyToOne
+	@JoinColumn(name = "prodID")
+	private Product product;
 	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "variableanswer", schema = "gamified_db", joinColumns = @JoinColumn(name = "answerID"))
+	@MapKeyJoinColumn(name = "variableQuestionID")
+	@Column(name = "answer")
+	private Map<VariableQuestion, String> variableAnswer;
 
 	public QuestionnaireAnswer() {
 		super();
@@ -83,6 +92,18 @@ public class QuestionnaireAnswer implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public Map<VariableQuestion, String> getVariableAnswer() {
+		return variableAnswer;
+	}
+
+	public void setVariableAnswer(VariableQuestion v, String answer) {
+		variableAnswer.put(v, answer);
+	}
+
+	public void removeSubpart(VariableQuestion v) {
+		variableAnswer.remove(v);
 	}
    
 }

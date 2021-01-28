@@ -1,9 +1,7 @@
 package it.polimi.db2.entities;
 
 import java.io.Serializable;
-import java.security.Timestamp;
 import java.util.Date;
-
 import javax.persistence.*;
 
 

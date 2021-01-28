@@ -42,7 +42,7 @@ public class CheckLogin extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-
+//TODO aggiungere creazione log al login
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String usrn = null;

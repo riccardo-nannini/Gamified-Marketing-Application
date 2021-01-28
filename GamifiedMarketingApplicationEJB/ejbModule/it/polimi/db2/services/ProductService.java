@@ -45,7 +45,7 @@ public class ProductService {
 		}
 		
 		for(VariableQuestion variableQuestion: questions) {
-			variableQuestion.setProdID(product);
+			variableQuestion.setProduct(product);
 		}
 		
 		em.persist(product);

@@ -1,6 +1,8 @@
 package it.polimi.db2.entities;
 
 import java.io.Serializable;
+import java.util.Map;
+
 import javax.persistence.*;
 
 @Entity
@@ -25,7 +27,13 @@ public class VariableQuestion implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "prodID")
-	private Product prodID;
+	private Product product;
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "variableanswer", schema = "gamified_db", joinColumns = @JoinColumn(name = "variableQuestionID"))
+	@MapKeyJoinColumn(name = "answerID")
+	@Column(name = "answer")
+	private Map<QuestionnaireAnswer, String> variableAnswer;
 	
 	private String text;
 
@@ -37,12 +45,12 @@ public class VariableQuestion implements Serializable {
 		this.id = id;
 	}
 
-	public Product getProdID() {
-		return prodID;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProdID(Product prodID) {
-		this.prodID = prodID;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public String getText() {
@@ -53,7 +61,18 @@ public class VariableQuestion implements Serializable {
 		this.text = text;
 	}
 
-	
+	public Map<QuestionnaireAnswer, String> getVariableAnswer() {
+		return variableAnswer;
+	}
+
+	public void setVariableAnswer(QuestionnaireAnswer q, String answer) {
+		variableAnswer.put(q, answer);
+	}
+
+	public void removeSubpart(QuestionnaireAnswer q) {
+		variableAnswer.remove(q);
+	}
+
 	
    
 }

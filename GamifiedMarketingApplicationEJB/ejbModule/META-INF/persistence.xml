@@ -10,7 +10,6 @@
 		<class>it.polimi.db2.entities.QuestionnaireAnswer</class>
 		<class>it.polimi.db2.entities.Review</class>
 		<class>it.polimi.db2.entities.User</class>
-		<class>it.polimi.db2.entities.VariableAnswer</class>
 		<class>it.polimi.db2.entities.VariableQuestion</class>
 		<properties>
 			<property name="eclipselink.logging.level" value="FINE" />

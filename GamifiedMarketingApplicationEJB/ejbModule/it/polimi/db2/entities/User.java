@@ -28,8 +28,11 @@ public class User implements Serializable {
 	
 	private Boolean blocked;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
 	private List<QuestionnaireAnswer> answers;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+	private List<Log> logs; 
 
 	public User() {
 		super();

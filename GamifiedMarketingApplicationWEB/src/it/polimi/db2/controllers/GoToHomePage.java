@@ -59,7 +59,7 @@ public class GoToHomePage extends HttpServlet {
 			return;
 		}
 		
-		//fare controllo in index che esista un product of the day?????
+		//TODO controllo che non sia null
 		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
 		
 		// Redirect to the Home page and add missions to the parameters

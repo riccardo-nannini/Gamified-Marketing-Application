@@ -49,7 +49,7 @@ public class Product implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "prodID", cascade = CascadeType.ALL)
 	private List<Review> reviews;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "prodID", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
 	private List<VariableQuestion> variableQuestions;
 
 
