@@ -38,6 +38,7 @@ public class Product implements Serializable {
 	
 	private String name;
 	
+	@Temporal(TemporalType.DATE)
 	private Date date;
 	
 	@Basic(fetch = FetchType.LAZY)

@@ -12,7 +12,6 @@ import it.polimi.db2.entities.Log;
 import it.polimi.db2.exceptions.LogException;
 
 @Stateless
-@LocalBean
 public class LogService {
 	@PersistenceContext(unitName = "GamifiedMarketingApplicationEJB")
 	private EntityManager em;

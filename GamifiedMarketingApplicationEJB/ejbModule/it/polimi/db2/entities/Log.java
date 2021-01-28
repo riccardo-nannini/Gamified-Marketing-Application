@@ -2,6 +2,7 @@ package it.polimi.db2.entities;
 
 import java.io.Serializable;
 import java.security.Timestamp;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -18,7 +19,8 @@ public class Log implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	private Timestamp timestamp;
+	@Temporal(TemporalType.TIMESTAMP)
+	private java.util.Date timestamp;
 	
 	@ManyToOne
 	@JoinColumn(name = "userID")
@@ -36,11 +38,11 @@ public class Log implements Serializable {
 		this.id = id;
 	}
 
-	public Timestamp getTimestamp() {
+	public Date getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Timestamp timestamp) {
+	public void setTimestamp(java.sql.Date timestamp) {
 		this.timestamp = timestamp;
 	}
 

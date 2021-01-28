@@ -14,7 +14,6 @@ import it.polimi.db2.entities.Review;
 import it.polimi.db2.entities.VariableQuestion;
 
 @Stateless
-@LocalBean
 public class ProductService {
 	@PersistenceContext(unitName = "GamifiedMarketingApplicationEJB")
 	private EntityManager em;
@@ -42,11 +41,11 @@ public class ProductService {
 		Product product = new Product(name, date, img, questions, reviews);
 		
 		for(Review review: reviews) {
-			review.setProdID(product.getId());
+			review.setProdID(product);
 		}
 		
 		for(VariableQuestion variableQuestion: questions) {
-			variableQuestion.setProdID(product.getId());
+			variableQuestion.setProdID(product);
 		}
 		
 		em.persist(product);

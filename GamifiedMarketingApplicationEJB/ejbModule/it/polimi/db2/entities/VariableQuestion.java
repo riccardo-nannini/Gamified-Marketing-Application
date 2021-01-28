@@ -25,7 +25,7 @@ public class VariableQuestion implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "prodID")
-	private int prodID;
+	private Product prodID;
 	
 	private String text;
 
@@ -37,11 +37,11 @@ public class VariableQuestion implements Serializable {
 		this.id = id;
 	}
 
-	public int getProdID() {
+	public Product getProdID() {
 		return prodID;
 	}
 
-	public void setProdID(int prodID) {
+	public void setProdID(Product prodID) {
 		this.prodID = prodID;
 	}
 

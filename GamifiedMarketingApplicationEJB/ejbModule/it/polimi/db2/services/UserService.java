@@ -12,7 +12,6 @@ import it.polimi.db2.entities.User;
 import it.polimi.db2.exceptions.CredentialsException;
 
 @Stateless
-@LocalBean
 public class UserService {
 	@PersistenceContext(unitName = "GamifiedMarketingApplicationEJB")
 	private EntityManager em;
