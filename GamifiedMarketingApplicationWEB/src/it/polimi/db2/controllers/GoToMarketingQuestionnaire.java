@@ -2,11 +2,14 @@ package it.polimi.db2.controllers;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,8 +38,8 @@ import it.polimi.db2.utilities.MarketingAnswers;
 public class GoToMarketingQuestionnaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	@EJB(name = "it.polimi.db2.services/QuestionnaireService")
-	private QuestionnaireService questionnaireService;
+	@EJB(name = "it.polimi.db2.services/ProductService")
+	private ProductService productService;
 	
 	public GoToMarketingQuestionnaire() {
 		super();
@@ -56,9 +59,37 @@ public class GoToMarketingQuestionnaire extends HttpServlet {
 		
 		//FILTRO PER USER		
 		
+		QuestionnaireService questionnaireService = (QuestionnaireService) request.getSession().getAttribute("QuestionBean");
+		if(questionnaireService == null) {
+			try {
+                InitialContext ic = new InitialContext();
+                questionnaireService = new QuestionnaireService();
+ 
+                request.getSession().setAttribute("QuestionBean", questionnaireService);
+ 
+                System.out.println("stateful bean created");
+ 
+              } catch (NamingException e) {
+                throw new ServletException(e);
+              }
+		}
+		
+		
+		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
+		List<String> previousAnswer = questionnaireService.getPreviousAnswer();
+		
+		if (previousAnswer == null) {
+			previousAnswer = new ArrayList<>();
+			for (int i = 0; i < productOfTheDay.getVariableQuestions().size(); i++) {
+				previousAnswer.add("");
+			}
+		}
+		
 		String path = "/WEB-INF/Marketing.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		ctx.setVariable("product", productOfTheDay);
+		ctx.setVariable("previousAnswers", previousAnswer);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 

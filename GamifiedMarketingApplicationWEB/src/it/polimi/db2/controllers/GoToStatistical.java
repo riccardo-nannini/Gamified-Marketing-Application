@@ -1,11 +1,15 @@
 package it.polimi.db2.controllers;
 
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,19 +26,22 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.Review;
 import it.polimi.db2.entities.User;
+import it.polimi.db2.entities.VariableQuestion;
 import it.polimi.db2.services.ProductService;
+import it.polimi.db2.services.QuestionnaireService;
 import it.polimi.db2.services.UserService;
+import it.polimi.db2.utilities.MarketingAnswers;
 
 
-@WebServlet("/GoToHomePage")
-public class GoToHomePage extends HttpServlet {
+
+@WebServlet("/GoToStatistical")
+public class GoToStatistical extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.polimi.db2.services/ProductService")
 	private ProductService productService;
 	
-
-	public GoToHomePage() {
+	public GoToStatistical() {
 		super();
 	}
 
@@ -50,22 +57,27 @@ public class GoToHomePage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		//FARE CON IL FILTRO
-		// If the user is not logged in (not present in session) redirect to the login
-		String loginpath = getServletContext().getContextPath() + "/index.html";
-		HttpSession session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
-			response.sendRedirect(loginpath);
+		//FILTRO PER USER		
+		
+		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
+
+		
+		QuestionnaireService questionnaireService = (QuestionnaireService) request.getSession().getAttribute("QuestionBean");
+		if (questionnaireService == null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
 		
-		//TODO controllo che non sia null
-		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
+		List<String> marketingAnswers = new ArrayList<String>();
+		for (int i = 0; i < productOfTheDay.getVariableQuestions().size(); i++) {
+			marketingAnswers.add(request.getParameter(Integer.toString(i)));
+		}
+		questionnaireService.storeMarketingAnswers(marketingAnswers);
+	
 		
-		String path = "/WEB-INF/Home.html";
+		String path = "/WEB-INF/Statistical.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("product", productOfTheDay);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 

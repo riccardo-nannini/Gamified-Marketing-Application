@@ -64,8 +64,10 @@ public class CreateAnswer extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect params");
 			return;		
 		}
-		
+		System.out.print(9999);
 		questionnaireService.createQuestionnaireAnswer(answer1, answer2, answer3, user, productOfTheDay);
+		System.out.print(9999);
+
 		//Remove the Stateful bean from session since it's been deleted by the container after the previous method
 		session.removeAttribute("QuestionBean");
 		

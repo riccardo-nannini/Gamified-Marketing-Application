@@ -11,14 +11,14 @@
 	<h1>Home Page</h1>
 	<p>Nice to see you again <span th:text="${session.user.username}"></span></p>
 	<br/>
-	<p> The product of the day is: <b th:text="${session.product.name}"></b>
+	<p> The product of the day is: <b th:text="${product.name}"></b>
 	<br/>
 	<img alt="photo"
-			th:src="*{'data:image/png;base64,'+ session.product.getImageData()}" width="400" height="300">
+			th:src="*{'data:image/png;base64,'+ product.getImageData()}" width="400" height="300">
 	<br/>
 	Product reviews:
 	<br/>
-	<tr th:each="review: ${session.product.getReviews}">
+	<tr th:each="review: ${product.getReviews}">
     	-<td th:text="${review.text}" /><br/>
 	</tr>
 	<br/>

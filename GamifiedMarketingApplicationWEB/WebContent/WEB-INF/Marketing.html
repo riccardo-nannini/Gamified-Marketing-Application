@@ -15,9 +15,10 @@
 	<br/>
 	
 	<form action="GoToStatistical" method="POST">
-		<tr th:each="question: ${session.product.getVariableQuestions}">	
-    		<span th:text="${question.text}"></span> 
-    		<input type="text" name="name" th:value="${question.getVa}" required/> <br/>
+		<tr th:each="i: ${#numbers.sequence(0, product.getVariableQuestions.size()-1)}">
+    		<span th:text="${product.getVariableQuestions.get(i).text}"></span>
+    		<input type="text" th:name="${i}" th:value="${previousAnswers.get(i)}" required/> <br/>
+    		
 		</tr>
 		<input type="submit" value="Go to statistical questions">
 	</form>
