@@ -56,17 +56,23 @@ public class CreateAnswer extends HttpServlet {
 		int answer1;
 		String answer2;
 		String answer3;
+		
+		//if the age is not specified it is set to 0
 		try {
 			answer1 = Integer.parseInt(request.getParameter("answ1"));
+		} catch (Exception e) {
+			answer1 = 0;
+		}
+		
+		try {
 			answer2 = StringEscapeUtils.escapeJava(request.getParameter("answ2"));
 			answer3 = StringEscapeUtils.escapeJava(request.getParameter("answ3"));
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect params");
 			return;		
 		}
-		System.out.print(9999);
+		
 		questionnaireService.createQuestionnaireAnswer(answer1, answer2, answer3, user, productOfTheDay);
-		System.out.print(9999);
 
 		//Remove the Stateful bean from session since it's been deleted by the container after the previous method
 		session.removeAttribute("QuestionBean");

@@ -16,14 +16,16 @@
 	<br/>
 	
 	<form action="CreateAnswer" method="POST">
-		Age: <input type="number" name="answ1" required> <br>
+		Age: <input type="number" name="answ1"> <br>
 		
 		<label>Sex:</label> <select name="answ2">
-			<option value="male">Male</option>
-			<option value="female">Female</option>
+			<option value="N">Not specified</option>
+			<option value="M">Male</option>
+			<option value="F">Female</option>
 		</select>
 		<br/>
 		<label>Expertise level:</label> <select name="answ3">
+			<option value="n/d">Not specified</option>
 			<option value="low">Low</option>
 			<option value="medium">Medium</option>
 			<option value="high">High</option>

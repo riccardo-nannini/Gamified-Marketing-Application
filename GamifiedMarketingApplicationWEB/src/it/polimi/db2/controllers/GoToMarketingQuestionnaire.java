@@ -59,12 +59,16 @@ public class GoToMarketingQuestionnaire extends HttpServlet {
 		
 		//FILTRO PER USER		
 		
+		
 		QuestionnaireService questionnaireService = (QuestionnaireService) request.getSession().getAttribute("QuestionBean");
+		
 		if(questionnaireService == null) {
 			try {
                 InitialContext ic = new InitialContext();
-                questionnaireService = new QuestionnaireService();
- 
+                 
+                
+                questionnaireService = (QuestionnaireService) 
+                        ic.lookup("java:global/GamifiedMarketingApplicationWEB/QuestionnaireService!it.polimi.db2.services.QuestionnaireService");
                 request.getSession().setAttribute("QuestionBean", questionnaireService);
  
                 System.out.println("stateful bean created");

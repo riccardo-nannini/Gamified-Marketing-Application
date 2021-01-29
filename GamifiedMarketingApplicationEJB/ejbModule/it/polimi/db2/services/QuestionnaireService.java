@@ -19,7 +19,6 @@ import it.polimi.db2.exceptions.QuestionnaireAnswerException;
 import it.polimi.db2.utilities.MarketingAnswers;
 
 @Stateful
-@LocalBean
 public class QuestionnaireService {
 	@PersistenceContext(unitName = "GamifiedMarketingApplicationEJB")
 	private EntityManager em;

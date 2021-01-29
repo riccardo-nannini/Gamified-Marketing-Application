@@ -28,6 +28,8 @@ public class QuestionnaireAnswer implements Serializable {
 	
 	private boolean deleted;
 	
+	private int points;
+	
 	@ManyToOne
 	@JoinColumn(name = "userID")
 	private User user;
@@ -54,6 +56,7 @@ public class QuestionnaireAnswer implements Serializable {
 		this.user = user;
 		this.product = product;
 		this.variableAnswer = variableAnswer;
+		this.points = 0;
 	}
 
 	public QuestionnaireAnswer(Boolean deleted, User user, Product product) {
