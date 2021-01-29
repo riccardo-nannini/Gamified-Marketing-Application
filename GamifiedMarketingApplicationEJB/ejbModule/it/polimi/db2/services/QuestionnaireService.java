@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.LocalBean;
+import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -45,7 +46,13 @@ public class QuestionnaireService {
     	this.marketingAnswers = marketingAnswers;
     }
     
-    public void cancelQuestionnaire() {
+    @Remove
+    public void cancelQuestionnaire(User user, Product product) {
+    	
+    	QuestionnaireAnswer q = new QuestionnaireAnswer(true, user, product);    	
+    	em.persist(q);
+    	
+    	//Clean before deallocation
     	marketingAnswers = null;
     }
     
@@ -53,15 +60,22 @@ public class QuestionnaireService {
     	return marketingAnswers;
     }
     
+    @Remove
     public void createQuestionnaireAnswer(int answ1, String answ2, String answ3, User user, Product product) {
+    	
     	Map<VariableQuestion, String> map = new HashMap<>();
     	List<VariableQuestion> variableQuestions = product.getVariableQuestions();
     	for (int i=0; i<variableQuestions.size(); i++) {
     		map.put(variableQuestions.get(i), marketingAnswers.get(i));
     	}
-    	QuestionnaireAnswer q = new QuestionnaireAnswer(answ1, answ2, answ3, user, product, map);    	
+    	QuestionnaireAnswer q = new QuestionnaireAnswer(answ1, answ2, answ3, false, user, product, map);    	
     	em.persist(q);
+    	
+    	//Clean before deallocation
+    	marketingAnswers = null;
+
     }
+
     
     
     

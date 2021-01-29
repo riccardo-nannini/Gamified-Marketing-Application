@@ -46,15 +46,22 @@ public class QuestionnaireAnswer implements Serializable {
 		super();
 	}
 	
-	public QuestionnaireAnswer (int answ1, String answ2, String answ3, User user, Product product, Map<VariableQuestion, String> variableAnswer) {
+	public QuestionnaireAnswer (int answ1, String answ2, String answ3, Boolean deleted, User user, Product product, Map<VariableQuestion, String> variableAnswer) {
 		this.answ1 = answ1;
 		this.answ2 = answ2;
 		this.answ3 = answ3;
+		this.deleted = deleted;
 		this.user = user;
 		this.product = product;
 		this.variableAnswer = variableAnswer;
 	}
 
+	public QuestionnaireAnswer(Boolean deleted, User user, Product product) {
+		this.deleted = deleted;
+		this.user = user;
+		this.product = product;
+	}
+	
 	public int getId() {
 		return id;
 	}

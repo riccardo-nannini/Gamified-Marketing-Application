@@ -1,11 +1,7 @@
 package it.polimi.db2.controllers;
 
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
 
-import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,24 +15,16 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import it.polimi.db2.entities.Product;
-import it.polimi.db2.entities.Review;
-import it.polimi.db2.entities.User;
-import it.polimi.db2.services.ProductService;
-import it.polimi.db2.services.UserService;
 
-
-@WebServlet("/GoToHomePage")
-public class GoToHomePage extends HttpServlet {
+@WebServlet("/GoToGreetingsPage")
+public class GoToGreetingsPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	@EJB(name = "it.polimi.db2.services/ProductService")
-	private ProductService productService;
-	
 
-	public GoToHomePage() {
-		super();
-	}
+   
+    public GoToGreetingsPage() {
+        super();
+    }
 
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
@@ -47,8 +35,8 @@ public class GoToHomePage extends HttpServlet {
 		templateResolver.setSuffix(".html");
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//FARE CON IL FILTRO
 		// If the user is not logged in (not present in session) redirect to the login
@@ -59,22 +47,19 @@ public class GoToHomePage extends HttpServlet {
 			return;
 		}
 		
-		//TODO controllo che non sia null
-		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
-		request.getSession().setAttribute("product", productOfTheDay);
-		
-		String path = "/WEB-INF/Home.html";
+		String path = "/WEB-INF/greetings.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		templateEngine.process(path, ctx, response.getWriter());
+		
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 
 	public void destroy() {
 	}
-
+	
 }
