@@ -27,16 +27,8 @@ public class CancelAnswer extends HttpServlet {
         super();
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		//da fare con filtro
-		String loginpath = getServletContext().getContextPath() + "/index.html";
-		HttpSession session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
-			response.sendRedirect(loginpath);
-			return;
-		}
-				
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
 		QuestionnaireService questionnaireService = (QuestionnaireService) request.getSession().getAttribute("QuestionBean");
 				
 		if (questionnaireService == null) {
@@ -47,6 +39,7 @@ public class CancelAnswer extends HttpServlet {
 		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
 		if (productOfTheDay == null) response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Cannot find the product of the day");
 
+		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 
 		questionnaireService.cancelQuestionnaire(user, productOfTheDay);
@@ -56,6 +49,10 @@ public class CancelAnswer extends HttpServlet {
 		
 		String path = getServletContext().getContextPath() + "/GoToHomePage";
 		response.sendRedirect(path);
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
 	}
 
 }

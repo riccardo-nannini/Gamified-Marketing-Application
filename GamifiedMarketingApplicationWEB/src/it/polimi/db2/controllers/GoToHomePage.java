@@ -47,18 +47,8 @@ public class GoToHomePage extends HttpServlet {
 		templateResolver.setSuffix(".html");
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		//FARE CON IL FILTRO
-		// If the user is not logged in (not present in session) redirect to the login
-		String loginpath = getServletContext().getContextPath() + "/index.html";
-		HttpSession session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
-			response.sendRedirect(loginpath);
-			return;
-		}
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
 		//TODO controllo che non sia null
 		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
 		

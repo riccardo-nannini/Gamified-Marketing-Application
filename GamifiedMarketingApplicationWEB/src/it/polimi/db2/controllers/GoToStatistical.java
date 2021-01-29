@@ -27,6 +27,8 @@ import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.Review;
 import it.polimi.db2.entities.User;
 import it.polimi.db2.entities.VariableQuestion;
+import it.polimi.db2.exceptions.OffensiveWordException;
+import it.polimi.db2.services.OffensiveWordService;
 import it.polimi.db2.services.ProductService;
 import it.polimi.db2.services.QuestionnaireService;
 import it.polimi.db2.services.UserService;
@@ -40,6 +42,9 @@ public class GoToStatistical extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.polimi.db2.services/ProductService")
 	private ProductService productService;
+	
+	@EJB(name = "it.polimi.db2.services/OffensiveWordService")
+	private OffensiveWordService offensiveWordService;
 	
 	public GoToStatistical() {
 		super();
@@ -56,9 +61,7 @@ public class GoToStatistical extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		//FILTRO PER USER		
-		
+				
 		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
 
 		
@@ -72,7 +75,17 @@ public class GoToStatistical extends HttpServlet {
 		for (int i = 0; i < productOfTheDay.getVariableQuestions().size(); i++) {
 			marketingAnswers.add(request.getParameter(Integer.toString(i)));
 		}
-		questionnaireService.storeMarketingAnswers(marketingAnswers);
+		try {
+			if (!offensiveWordService.checkOffensiveWords(marketingAnswers)) {
+				questionnaireService.storeMarketingAnswers(marketingAnswers);
+			} else {
+				//TODO bloccare l'utente
+			}
+			
+		} catch (OffensiveWordException e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return;
+		}
 	
 		
 		String path = "/WEB-INF/Statistical.html";

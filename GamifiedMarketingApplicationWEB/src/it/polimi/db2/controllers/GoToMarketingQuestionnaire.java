@@ -55,10 +55,7 @@ public class GoToMarketingQuestionnaire extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		//FILTRO PER USER		
-		
+			throws ServletException, IOException {		
 		
 		QuestionnaireService questionnaireService = (QuestionnaireService) request.getSession().getAttribute("QuestionBean");
 		

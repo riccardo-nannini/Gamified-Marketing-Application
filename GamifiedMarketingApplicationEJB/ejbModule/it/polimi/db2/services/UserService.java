@@ -20,8 +20,7 @@ public class UserService {
     public UserService() {
     
     }
-    
-    
+        
 	public User checkCredentials(String username, String password) throws CredentialsException {
 		List<User> uList = null;
 		try {
@@ -41,6 +40,10 @@ public class UserService {
 		User user = new User(username, password, email);
 		em.persist(user);
 		return user;
+	}
+	
+	public void blockUser(User user) {
+		//TODO bloccare lo user e mergiare
 	}
 	
 }

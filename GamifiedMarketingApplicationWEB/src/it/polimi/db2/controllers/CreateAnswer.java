@@ -31,15 +31,7 @@ public class CreateAnswer extends HttpServlet {
         super();
     }
     
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		//da fare con filtro
-		String loginpath = getServletContext().getContextPath() + "/index.html";
-		HttpSession session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
-			response.sendRedirect(loginpath);
-			return;
-		}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		
 		QuestionnaireService questionnaireService = (QuestionnaireService) request.getSession().getAttribute("QuestionBean");
 		
@@ -51,6 +43,7 @@ public class CreateAnswer extends HttpServlet {
 		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
 		if (productOfTheDay == null) response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Cannot find the product of the day");
 
+		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		
 		int answer1;
@@ -64,6 +57,8 @@ public class CreateAnswer extends HttpServlet {
 			answer1 = 0;
 		}
 		
+		//TODO in teoria uno potrebbe non specificare questi dati e salvare comunque il questionario di marketing da specifica
+		//quindi non è corretto lanciare eccezione
 		try {
 			answer2 = StringEscapeUtils.escapeJava(request.getParameter("answ2"));
 			answer3 = StringEscapeUtils.escapeJava(request.getParameter("answ3"));
