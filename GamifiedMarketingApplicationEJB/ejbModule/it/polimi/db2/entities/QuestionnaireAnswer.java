@@ -45,6 +45,15 @@ public class QuestionnaireAnswer implements Serializable {
 	public QuestionnaireAnswer() {
 		super();
 	}
+	
+	public QuestionnaireAnswer (int answ1, String answ2, String answ3, User user, Product product, Map<VariableQuestion, String> variableAnswer) {
+		this.answ1 = answ1;
+		this.answ2 = answ2;
+		this.answ3 = answ3;
+		this.user = user;
+		this.product = product;
+		this.variableAnswer = variableAnswer;
+	}
 
 	public int getId() {
 		return id;

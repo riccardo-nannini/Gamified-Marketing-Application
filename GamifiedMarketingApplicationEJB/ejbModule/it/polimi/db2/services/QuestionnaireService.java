@@ -1,6 +1,8 @@
 package it.polimi.db2.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
@@ -10,6 +12,8 @@ import javax.persistence.PersistenceException;
 
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.QuestionnaireAnswer;
+import it.polimi.db2.entities.User;
+import it.polimi.db2.entities.VariableQuestion;
 import it.polimi.db2.exceptions.QuestionnaireAnswerException;
 import it.polimi.db2.utilities.MarketingAnswers;
 
@@ -19,7 +23,7 @@ public class QuestionnaireService {
 	@PersistenceContext(unitName = "GamifiedMarketingApplicationEJB")
 	private EntityManager em;
     
-	private MarketingAnswers marketingAnswers = null;
+	private List<String> marketingAnswers = null;
 	
     public QuestionnaireService() {
     	
@@ -37,7 +41,7 @@ public class QuestionnaireService {
     	return answers;
     }
     
-    public void storeMarketingAnswersById(MarketingAnswers marketingAnswers) {
+    public void storeMarketingAnswers(List<String> marketingAnswers) {
     	this.marketingAnswers = marketingAnswers;
     }
     
@@ -45,12 +49,18 @@ public class QuestionnaireService {
     	marketingAnswers = null;
     }
     
-    public MarketingAnswers getPreviousAnswer() {
+    public List<String> getPreviousAnswer() {
     	return marketingAnswers;
     }
     
-    public void createQuestionnaireAnswer() {
-    	//TODO    	
+    public void createQuestionnaireAnswer(int answ1, String answ2, String answ3, User user, Product product) {
+    	Map<VariableQuestion, String> map = new HashMap<>();
+    	List<VariableQuestion> variableQuestions = product.getVariableQuestions();
+    	for (int i=0; i<variableQuestions.size(); i++) {
+    		map.put(variableQuestions.get(i), marketingAnswers.get(i));
+    	}
+    	QuestionnaireAnswer q = new QuestionnaireAnswer(answ1, answ2, answ3, user, product, map);    	
+    	em.persist(q);
     }
     
     

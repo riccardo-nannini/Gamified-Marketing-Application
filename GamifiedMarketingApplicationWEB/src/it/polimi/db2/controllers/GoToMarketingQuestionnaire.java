@@ -1,5 +1,6 @@
 package it.polimi.db2.controllers;
 
+
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Date;
@@ -22,19 +23,22 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.Review;
 import it.polimi.db2.entities.User;
+import it.polimi.db2.entities.VariableQuestion;
 import it.polimi.db2.services.ProductService;
+import it.polimi.db2.services.QuestionnaireService;
 import it.polimi.db2.services.UserService;
+import it.polimi.db2.utilities.MarketingAnswers;
 
 
-@WebServlet("/GoToHomePage")
-public class GoToHomePage extends HttpServlet {
+
+@WebServlet("/GoToMarketing")
+public class GoToMarketingQuestionnaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	@EJB(name = "it.polimi.db2.services/ProductService")
-	private ProductService productService;
+	@EJB(name = "it.polimi.db2.services/QuestionnaireService")
+	private QuestionnaireService questionnaireService;
 	
-
-	public GoToHomePage() {
+	public GoToMarketingQuestionnaire() {
 		super();
 	}
 
@@ -50,21 +54,9 @@ public class GoToHomePage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		//FARE CON IL FILTRO
-		// If the user is not logged in (not present in session) redirect to the login
-		String loginpath = getServletContext().getContextPath() + "/index.html";
-		HttpSession session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
-			response.sendRedirect(loginpath);
-			return;
-		}
+		//FILTRO PER USER		
 		
-		//TODO controllo che non sia null
-		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
-		request.getSession().setAttribute("product", productOfTheDay);
-		
-		// Redirect to the Home page and add missions to the parameters
-		String path = "/WEB-INF/Home.html";
+		String path = "/WEB-INF/Marketing.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		templateEngine.process(path, ctx, response.getWriter());
