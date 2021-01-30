@@ -3,18 +3,21 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Home</title>
+<link rel="stylesheet" type="text/css" href="./CSS/style.css"/>
+
 </head>
 <body>
 	<div align="right">
-		<a th:href="@{/Logout}">Logout</a>
+		<a th:href="@{/Logout}" class="button">Logout</a>
 	</div>
 	<h1>Questionnaire completed!</h1>
 	<p>Thanks <span th:text="${session.user.username}"></span> for completing the survey!</p>
 	<br/>
 	<br/>
-	<a th:href="@{/GoToLeaderboardPage}">Click here to go to the leaderboard page</a>
+	<a th:href="@{/GoToLeaderboardPage}" class="button">Click here to go to the leaderboard page</a>
 	<br/>
-	<a th:href="@{/GoToHomePage}">Click here to go to the home page</a>
+	<br/>
+	<a th:href="@{/GoToHomePage}" class="button">Click here to go to the home page</a>
 	
 </body>
 </html>

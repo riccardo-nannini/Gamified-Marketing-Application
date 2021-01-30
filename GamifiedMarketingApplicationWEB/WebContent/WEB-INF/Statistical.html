@@ -3,13 +3,15 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Home</title>
-<link rel="stylesheet" type="text/css" href="./CSS/styleSheet.css"/>
+<link rel="stylesheet" type="text/css" href="./CSS/style.css"/>
 
 </head>
 <body>
 	<div align="right">
-		<a th:href="@{/Logout}">Logout</a>
 		<a th:href="@{/GoToHomePage}">Go back to the home page</a> 
+		<a th:href="@{/Logout}" class="button">Logout</a>
+		<br/><br/>
+		<a th:href="@{/GoToHomePage}" class="button">Go back to the home page</a> 
 	</div>
 	<h1>Statistical Questions</h1>
 	<p>Please fill the form with your personal information</p>
@@ -30,12 +32,12 @@
 			<option value="medium">Medium</option>
 			<option value="high">High</option>
 		</select>
-		<br/>
-		<input type="submit" value="Submit your questionnaire">
+		<br/> <br/>
+		<input class="button" type="submit" value="Submit your questionnaire">
 	</form>
-	
-	<a th:href="@{/GoToMarketing}" class="button">Go back to your marketing answers</a>
 	<br/>
+	<a th:href="@{/GoToMarketing}" class="button">Go back to your marketing answers</a>
+	<br/><br/>
 	<a th:href="@{/CancelAnswer}" class="button">Cancel your questionnaire</a>
 	
 </body>
