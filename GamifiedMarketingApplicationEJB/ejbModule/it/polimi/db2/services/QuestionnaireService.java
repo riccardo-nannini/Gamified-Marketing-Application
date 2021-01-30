@@ -75,6 +75,10 @@ public class QuestionnaireService {
 
     }
 
+    @Remove
+    public void destroy() {
+    	
+    }
     
     
     

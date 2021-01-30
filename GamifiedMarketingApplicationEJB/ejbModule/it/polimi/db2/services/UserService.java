@@ -43,7 +43,8 @@ public class UserService {
 	}
 	
 	public void blockUser(User user) {
-		//TODO bloccare lo user e mergiare
+		user.setBlocked(true);
+		em.merge(user);
 	}
 	
 }

@@ -46,6 +46,9 @@ public class GoToStatistical extends HttpServlet {
 	@EJB(name = "it.polimi.db2.services/OffensiveWordService")
 	private OffensiveWordService offensiveWordService;
 	
+	@EJB(name = "it.polimi.db2.services/UserService")
+	private UserService userService;
+	
 	public GoToStatistical() {
 		super();
 	}
@@ -64,6 +67,8 @@ public class GoToStatistical extends HttpServlet {
 				
 		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
 
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
 		
 		QuestionnaireService questionnaireService = (QuestionnaireService) request.getSession().getAttribute("QuestionBean");
 		if (questionnaireService == null) {
@@ -79,7 +84,10 @@ public class GoToStatistical extends HttpServlet {
 			if (!offensiveWordService.checkOffensiveWords(marketingAnswers)) {
 				questionnaireService.storeMarketingAnswers(marketingAnswers);
 			} else {
-				//TODO bloccare l'utente
+				questionnaireService.destroy();
+				userService.blockUser(user);
+				String path = getServletContext().getContextPath() + "/blocked.html";
+				response.sendRedirect(path);
 			}
 			
 		} catch (OffensiveWordException e) {
