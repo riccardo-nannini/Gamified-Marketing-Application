@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Admin home</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="./CSS/style.css" />
+</head>
+<body>
+	<div align="right">
+		<a th:href="@{/Logout}" class="button">Logout</a> <br />
+		<br /> <a th:href="@{/GoToHomePage}" class="button">Go back to the home page</a>
+	</div>
+	<div class="center">
+		<a th:href="@{/GoToCreationPage}" class="myButton">Creation page</a> 
+		<a th:href="@{/GoToInspectionPage}" class="myButton">Inspection page</a>
+		<a th:href="@{/GoToDeletePage}" class="myButton">Deletion page</a>
+	</div>
+</body>
+</html>

@@ -15,6 +15,10 @@
 		<filter-name>BlockChecker</filter-name>
 		<filter-class>it.polimi.db2.filters.BlockChecker</filter-class>
 	</filter>
+	<filter>
+		<filter-name>AdminChecker</filter-name>
+		<filter-class>it.polimi.db2.filters.AdminChecker</filter-class>
+	</filter>
 	<filter-mapping>
 		<filter-name>LoginChecker</filter-name>
 		<url-pattern>/CancelAnswer</url-pattern>
@@ -23,6 +27,10 @@
 		<url-pattern>/GoToHomePage</url-pattern>
 		<url-pattern>/GoToMarketing</url-pattern>
 		<url-pattern>/GoToStatistical</url-pattern>
+		<url-pattern>/GoToAdmin</url-pattern>
+		<url-pattern>/GoToDeletePage</url-pattern>
+		<url-pattern>/GoToLeaderboardPage</url-pattern>
+		<url-pattern>/GoToInspectionPage</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>BlockChecker</filter-name>
@@ -32,5 +40,12 @@
 		<url-pattern>/GoToHomePage</url-pattern>
 		<url-pattern>/GoToMarketing</url-pattern>
 		<url-pattern>/GoToStatistical</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AdminChecker</filter-name>
+		<url-pattern>/GoToAdmin</url-pattern>
+		<url-pattern>/GoToDeletePage</url-pattern>
+		<url-pattern>/GoToLeaderboardPage</url-pattern>
+		<url-pattern>/GoToInspectionPage</url-pattern>
 	</filter-mapping>
 </web-app>

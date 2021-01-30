@@ -19,8 +19,44 @@
 	border-top: 1px solid #CCCCCC;
 	border-right: 1px solid #333333;
 	border-bottom: 1px solid #333333;
-	border-left: 1px solid #CCCCCC;}
+	border-left: 1px solid #CCCCCC;
+}
 
 .User {
-    display: none;
+	display: none;
+}
+
+.myButton {
+	box-shadow: 0px 0px 0px 2px #9fb4f2;
+	background: linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
+	background-color: #7892c2;
+	border-radius: 12px;
+	border: 1px solid #4e6096;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 22px;
+	padding: 19px 57px;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #283966;
+}
+
+.myButton:hover {
+	background: linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
+	background-color: #476e9e;
+}
+
+.myButton:active {
+  background: linear-gradient(to bottom, #3c5c99 5%, #2a467a 100%);
+  background-color: #4466a6;
+  transform: translateY(4px);
+}
+
+.center {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 200px;
+	padding: 140px
 }
