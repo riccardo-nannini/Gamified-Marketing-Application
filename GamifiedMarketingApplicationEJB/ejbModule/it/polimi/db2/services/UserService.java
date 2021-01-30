@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import it.polimi.db2.entities.Product;
+import it.polimi.db2.entities.QuestionnaireAnswer;
 import it.polimi.db2.entities.User;
 import it.polimi.db2.exceptions.CredentialsException;
 
@@ -45,6 +47,16 @@ public class UserService {
 	public void blockUser(User user) {
 		user.setBlocked(true);
 		em.merge(user);
+	}
+	
+	public boolean hasAlreadyDoneSurvey(Product product, int userID) {
+		User managedUser = em.find(User.class, userID);
+		em.refresh(managedUser);
+		List<QuestionnaireAnswer> answers = managedUser.getAnswers();
+		for (QuestionnaireAnswer ans: answers) {
+			if (ans.getProduct().getId() == product.getId()) return true;
+		}
+		return false;
 	}
 	
 }

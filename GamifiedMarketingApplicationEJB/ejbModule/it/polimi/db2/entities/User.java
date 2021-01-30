@@ -28,10 +28,10 @@ public class User implements Serializable {
 	
 	private Boolean blocked;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
 	private List<QuestionnaireAnswer> answers;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
 	private List<Log> logs; 
 
 	public User() {
@@ -119,12 +119,27 @@ public class User implements Serializable {
 	public Boolean getBlocked() {
 		return blocked;
 	}
-
-
+	
 
 
 	public void setBlocked(Boolean blocked) {
 		this.blocked = blocked;
+	}
+
+	public List<QuestionnaireAnswer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<QuestionnaireAnswer> answers) {
+		this.answers = answers;
+	}
+
+	public List<Log> getLogs() {
+		return logs;
+	}
+
+	public void setLogs(List<Log> logs) {
+		this.logs = logs;
 	}
    
 }

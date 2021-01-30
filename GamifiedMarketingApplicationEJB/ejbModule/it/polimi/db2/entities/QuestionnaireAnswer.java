@@ -121,8 +121,16 @@ public class QuestionnaireAnswer implements Serializable {
 		variableAnswer.put(v, answer);
 	}
 
-	public void removeSubpart(VariableQuestion v) {
+	public void removeVariableAnswer(VariableQuestion v) {
 		variableAnswer.remove(v);
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
    
 }

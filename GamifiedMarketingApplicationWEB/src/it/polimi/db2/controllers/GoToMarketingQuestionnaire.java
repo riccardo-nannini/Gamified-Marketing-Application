@@ -40,6 +40,8 @@ public class GoToMarketingQuestionnaire extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.polimi.db2.services/ProductService")
 	private ProductService productService;
+	@EJB(name = "it.polimi.db2.services/UserService")
+	private UserService userService;
 	
 	public GoToMarketingQuestionnaire() {
 		super();
@@ -57,26 +59,32 @@ public class GoToMarketingQuestionnaire extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {		
 		
+		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		if (userService.hasAlreadyDoneSurvey(productOfTheDay, user.getId())) {
+			String path = getServletContext().getContextPath() + "/GoToHomePage";
+			response.sendRedirect(path);
+			return;
+		}
+		
 		QuestionnaireService questionnaireService = (QuestionnaireService) request.getSession().getAttribute("QuestionBean");
 		
 		if(questionnaireService == null) {
 			try {
                 InitialContext ic = new InitialContext();
                  
-                
                 questionnaireService = (QuestionnaireService) 
                         ic.lookup("java:global/GamifiedMarketingApplicationWEB/QuestionnaireService!it.polimi.db2.services.QuestionnaireService");
                 request.getSession().setAttribute("QuestionBean", questionnaireService);
- 
-                System.out.println("stateful bean created");
- 
+  
               } catch (NamingException e) {
                 throw new ServletException(e);
               }
 		}
 		
 		
-		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
 		List<String> previousAnswer = questionnaireService.getPreviousAnswer();
 		
 		if (previousAnswer == null) {

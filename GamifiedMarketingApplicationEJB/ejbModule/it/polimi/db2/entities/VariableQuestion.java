@@ -69,7 +69,7 @@ public class VariableQuestion implements Serializable {
 		variableAnswer.put(q, answer);
 	}
 
-	public void removeSubpart(QuestionnaireAnswer q) {
+	public void removeQuestionnaireAnswer(QuestionnaireAnswer q) {
 		variableAnswer.remove(q);
 	}
 
