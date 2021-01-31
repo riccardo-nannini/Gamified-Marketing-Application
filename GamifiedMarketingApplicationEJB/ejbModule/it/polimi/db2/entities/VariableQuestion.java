@@ -16,6 +16,11 @@ public class VariableQuestion implements Serializable {
 		super();
 	}
 	
+	public VariableQuestion(String text, Product product) {
+		this.text = text;
+		this.product = product;
+	}
+	
 	//BASTA?
 	public VariableQuestion(String text) {
 		this.text = text;

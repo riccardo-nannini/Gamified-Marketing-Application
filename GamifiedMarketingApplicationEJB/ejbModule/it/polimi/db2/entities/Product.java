@@ -28,13 +28,13 @@ public class Product implements Serializable {
 		super();
 	}
 	
-	public Product(String name, Date date, byte[] image, List<VariableQuestion> variableQuestions, List<Review> reviews) {
+	public Product(String name, Date date, byte[] image) {
 		this.name = name;
 		this.date = date;
 		this.image = image;
-		this.variableQuestions = variableQuestions;	
-		this.reviews = reviews;
 	}
+	
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,7 @@
 package it.polimi.db2.services;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+
 
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.Review;
@@ -39,19 +42,10 @@ public class ProductService {
 		return products;
 	}
     
-    public void createProduct(String name, Date date, List<VariableQuestion> questions, byte[] img, List<Review> reviews) {
-		
-		Product product = new Product(name, date, img, questions, reviews);
-		
-		for(Review review: reviews) {
-			review.setProdID(product);
-		}
-		
-		for(VariableQuestion variableQuestion: questions) {
-			variableQuestion.setProduct(product);
-		}
-		
+    public Product createProduct(String name, String date, byte[] img) throws ParseException {
+		Product product = new Product(name, new SimpleDateFormat("yyyy-MM-dd").parse(date), img);
 		em.persist(product);
+		return product;
 	}
     
     public void deleteProduct(int id) {

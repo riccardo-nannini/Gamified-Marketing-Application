@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+<link rel="stylesheet" type="text/css" href="./CSS/style.css"/>
+</head>
+<body>
+	<div align="right">
+		<a th:href="@{/Logout}" class="button">Logout</a>
+		<br/><br/>
+		<a th:href="@{/GoToAdmin}" class="button">Go to admin home page</a>
+	</div>
+	<h1>Create variable questions</h1>
+	<p>Please fill the form</p>
+	<br/>
+	
+	<form action="CreateVariableQuestions" method="POST">
+		<tr th:each="i: ${#numbers.sequence(1, numberOfVariableQuestions)}">
+    		Insert variable question <span th:text="${i}"></span>: 
+    		<input type="text" th:name="${i}" required/> <br/>
+		</tr>
+		<input type="hidden" th:value="${createdProduct}" name="createdProduct">
+		<input type="hidden" th:value="${numberOfVariableQuestions}" name="numberOfVariableQuestions">
+		<input type="submit" value="CreateVariableQuestions">
+		
+	</form>
+</body>
+</html>

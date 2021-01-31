@@ -49,13 +49,19 @@ public class GoToHomePage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		//TODO controllo che non sia null
-		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
+		List<Product> productOfTheDay = productService.findProductsByDate(new Date());
 		
-		String path = "/WEB-INF/Home.html";
+		String path;
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("product", productOfTheDay);
+		
+		if (productOfTheDay.size() == 0) {
+			path = "/WEB-INF/HomeNoProduct.html";
+		} else {
+			path = "/WEB-INF/Home.html";
+			ctx.setVariable("product", productOfTheDay.get(0));
+		}
+			
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 

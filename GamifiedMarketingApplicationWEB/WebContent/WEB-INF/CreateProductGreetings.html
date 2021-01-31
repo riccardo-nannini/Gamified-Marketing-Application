@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+<link rel="stylesheet" type="text/css" href="./CSS/style.css"/>
+
+</head>
+<body>
+	<div align="right">
+		<a th:href="@{/Logout}" class="button">Logout</a>
+	</div>
+	<h1>Product created successfully!</h1>
+	<br/>
+	<br/>
+	<a th:href="@{/GoToAdmin}" class="button">Click here to go to the admin home page</a>
+	
+</body>
+</html>
