@@ -31,6 +31,7 @@
 		<url-pattern>/GoToDeletePage</url-pattern>
 		<url-pattern>/GoToLeaderboardPage</url-pattern>
 		<url-pattern>/GoToInspectionPage</url-pattern>
+		<url-pattern>/GoToCreationPage</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>BlockChecker</filter-name>
@@ -40,12 +41,13 @@
 		<url-pattern>/GoToHomePage</url-pattern>
 		<url-pattern>/GoToMarketing</url-pattern>
 		<url-pattern>/GoToStatistical</url-pattern>
+		<url-pattern>/GoToLeaderboardPage</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>AdminChecker</filter-name>
 		<url-pattern>/GoToAdmin</url-pattern>
 		<url-pattern>/GoToDeletePage</url-pattern>
-		<url-pattern>/GoToLeaderboardPage</url-pattern>
+		<url-pattern>/GoToCreationPage</url-pattern>
 		<url-pattern>/GoToInspectionPage</url-pattern>
 	</filter-mapping>
 </web-app>
