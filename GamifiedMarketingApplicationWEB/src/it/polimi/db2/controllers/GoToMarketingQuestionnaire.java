@@ -63,6 +63,8 @@ public class GoToMarketingQuestionnaire extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		
+		//DOBBIAMO DIRGLI PERCHÈ È STATO RIMANDATO ALLA HOME AL POVERO UTENTE,
+		//IO PENSAVO CHE NON MI FUNZIONASSE QUALCOSA
 		if (userService.hasAlreadyDoneSurvey(productOfTheDay, user.getId())) {
 			String path = getServletContext().getContextPath() + "/GoToHomePage";
 			response.sendRedirect(path);

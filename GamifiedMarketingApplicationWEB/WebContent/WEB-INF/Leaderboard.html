@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+<link rel="stylesheet" type="text/css" media="all" href="./CSS/style.css" />
+</head>
+<body>
+	<div align="right">
+		<a th:href="@{/Logout}" class="button">Logout</a> <br/> <br/>
+ 		<a th:href="@{/GoToHomePage}" >Home Page</a>
+		
+	</div>
+	<h1>Leaderbord of the product <b th:text="${product.name}"></h1>
+	<br/>
+	<br/>
+	<img alt="photo"
+			th:src="*{'data:image/png;base64,'+ product.getImageData()}" width="400" height="300">
+	<br/>
+	Leaderboard: 
+	<br/>
+	<tr th:each="result: ${results}">
+    	-<td th:text="${result[0]}" /> <td th:text="${result[1]}" /> <br/>
+	</tr>
+	<br/>
+	<a th:href="@{/GoToMarketing}" class="button">Click here to go to the questionnaire page</a>
+</body>
+</html>

@@ -13,6 +13,10 @@ import javax.persistence.*;
 @Table(name = "questionnarieanswer", schema = "gamified_db")
 @NamedQuery(name = "QuestionnaireAnswer.findByProduct",
 	query = "SELECT q FROM QuestionnaireAnswer q WHERE q.product.id = :prodId")
+@NamedQuery(name = "QuestionnaireAnswer.findLeaderboardByProduct", 
+query = "SELECT u.username, q.points FROM QuestionnaireAnswer q JOIN User u "
+		+ "WHERE q.product.id = :prodId and q.user.id = u.id "
+		+ "ORDER BY q.points DESC")
 public class QuestionnaireAnswer implements Serializable {
 	private static final long serialVersionUID = 1L;
 

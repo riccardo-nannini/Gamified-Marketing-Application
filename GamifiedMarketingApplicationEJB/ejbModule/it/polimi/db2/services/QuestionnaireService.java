@@ -10,6 +10,7 @@ import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.QuestionnaireAnswer;
@@ -75,7 +76,24 @@ public class QuestionnaireService {
 
     }
 
-    @Remove
+    public List<Object[]> findLeaderbordByProduct(Product product) throws QuestionnaireAnswerException {
+    	List<Object[]> results;
+    	try {    		
+    		TypedQuery<Object[]> query = em.createNamedQuery("QuestionnaireAnswer.findLeaderboardByProduct", Object[].class).setParameter("prodId", product.getId());
+    		results = query.getResultList();
+
+    		/* retrieve the result
+    		for (Object[] result : results) {
+			      System.out.println(
+			      "Country: " + result[0] + ", Capital: " + result[1]);
+			  }
+			  */
+    		
+    	} catch (PersistenceException e) {
+    		throw new QuestionnaireAnswerException("Could not retrieve questionnaire answers related to the product");
+		}
+    	return results;
+    } @Remove
     public void destroy() {
     	
     }
