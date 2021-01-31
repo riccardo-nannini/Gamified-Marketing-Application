@@ -75,25 +75,8 @@ public class QuestionnaireService {
     	marketingAnswers = null;
 
     }
-
-    public List<Object[]> findLeaderbordByProduct(Product product) throws QuestionnaireAnswerException {
-    	List<Object[]> results;
-    	try {    		
-    		TypedQuery<Object[]> query = em.createNamedQuery("QuestionnaireAnswer.findLeaderboardByProduct", Object[].class).setParameter("prodId", product.getId());
-    		results = query.getResultList();
-
-    		/* retrieve the result
-    		for (Object[] result : results) {
-			      System.out.println(
-			      "Country: " + result[0] + ", Capital: " + result[1]);
-			  }
-			  */
-    		
-    	} catch (PersistenceException e) {
-    		throw new QuestionnaireAnswerException("Could not retrieve questionnaire answers related to the product");
-		}
-    	return results;
-    } @Remove
+  
+    @Remove
     public void destroy() {
     	
     }

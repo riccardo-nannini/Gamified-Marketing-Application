@@ -8,10 +8,13 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.Review;
 import it.polimi.db2.entities.VariableQuestion;
+import it.polimi.db2.exceptions.LeaderboardException;
+import it.polimi.db2.exceptions.QuestionnaireAnswerException;
 
 @Stateless
 public class ProductService {
@@ -66,5 +69,15 @@ public class ProductService {
     	return variableQuestion;
     }
     
-
+    public List<Object[]> findLeaderbordByProduct(Product product) throws LeaderboardException {
+    	List<Object[]> results;
+    	try {    		
+    		TypedQuery<Object[]> query = em.createNamedQuery("Product.findLeaderboardByProduct", Object[].class).setParameter("prodId", product.getId());
+    		results = query.getResultList();
+    	} catch (PersistenceException e) {
+    		throw new LeaderboardException("Could not retrieve questionnaire answers related to the product");
+		}
+    	return results;
+    }
+    
 }

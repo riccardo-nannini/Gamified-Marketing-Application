@@ -21,6 +21,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.QuestionnaireAnswer;
+import it.polimi.db2.exceptions.LeaderboardException;
 import it.polimi.db2.exceptions.QuestionnaireAnswerException;
 import it.polimi.db2.services.ProductService;
 import it.polimi.db2.services.QuestionnaireService;
@@ -50,29 +51,14 @@ public class GoToLeaderboardPage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Product productOfTheDay = productService.findProductsByDate(new Date()).get(0);
-		
-		QuestionnaireService questionnaireService = (QuestionnaireService) request.getSession().getAttribute("QuestionBean");
-		if(questionnaireService == null) {
-			try {
-                InitialContext ic = new InitialContext();
-                questionnaireService = (QuestionnaireService) 
-                        ic.lookup("java:global/GamifiedMarketingApplicationWEB/QuestionnaireService!it.polimi.db2.services.QuestionnaireService");
-                request.getSession().setAttribute("QuestionBean", questionnaireService);
-                System.out.println("stateful bean created");
-              } catch (NamingException e) {
-                throw new ServletException(e);
-              }
-		}
-		
-		
+
 		List<Object[]> results = null;
 		
-		
 		try {
-			results = questionnaireService.findLeaderbordByProduct(productOfTheDay);
-		} catch (QuestionnaireAnswerException e) {
+			results = productService.findLeaderbordByProduct(productOfTheDay);
+		} catch (LeaderboardException e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-			e.printStackTrace();
+			return;
 		}
 		
 		String path = "/WEB-INF/Leaderboard.html";
