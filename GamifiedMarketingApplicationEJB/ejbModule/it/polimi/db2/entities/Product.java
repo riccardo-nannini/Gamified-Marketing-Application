@@ -13,11 +13,7 @@ import javax.persistence.*;
 @NamedQueries({ 
 	@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
 	@NamedQuery(name = "Product.findByDate", query = "Select p FROM Product p WHERE p.date = :date"),
-	@NamedQuery(name = "Product.findLeaderboardByProduct", 
-	query = "SELECT u.username, q.points FROM QuestionnaireAnswer q JOIN User u "
-			+ "WHERE q.product.id = :prodId and q.user.id = u.id "
-			+ "ORDER BY q.points DESC")
-})
+	@NamedQuery(name = "Product.findPast", query = "Select p FROM Product p WHERE p.date < :date")})
 public class Product implements Serializable {
 
 	

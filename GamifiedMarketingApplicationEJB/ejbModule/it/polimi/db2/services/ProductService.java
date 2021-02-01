@@ -58,20 +58,16 @@ public class ProductService {
     	return review;
     }
     
-    public VariableQuestion createVariableQuestion(String text) {
-    	VariableQuestion variableQuestion = new VariableQuestion(text);
-    	return variableQuestion;
+    
+    public Product findProductById(int prodId) {
+    	return(em.find(Product.class, prodId));
     }
     
-    public List<Object[]> findLeaderbordByProduct(Product product) throws LeaderboardException {
-    	List<Object[]> results;
-    	try {    		
-    		TypedQuery<Object[]> query = em.createNamedQuery("Product.findLeaderboardByProduct", Object[].class).setParameter("prodId", product.getId());
-    		results = query.getResultList();
-    	} catch (PersistenceException e) {
-    		throw new LeaderboardException("Could not retrieve questionnaire answers related to the product");
-		}
-    	return results;
-    }
-    
+    public List<Product> findPastProducts(Date date) {
+		List<Product> products = em
+				.createNamedQuery("Product.findPast", Product.class)
+				.setParameter("date", date).getResultList();
+		return products;
+	}
+
 }

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.User;
 import it.polimi.db2.services.ProductService;
-import it.polimi.db2.services.QuestionnaireService;
+import it.polimi.db2.services.QuestionnaireFillingService;
 
 
 @WebServlet("/CancelAnswer")
@@ -29,9 +29,9 @@ public class CancelAnswer extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
-		QuestionnaireService questionnaireService = (QuestionnaireService) request.getSession().getAttribute("QuestionBean");
+		QuestionnaireFillingService questionnaireFillingService = (QuestionnaireFillingService) request.getSession().getAttribute("QuestionBean");
 				
-		if (questionnaireService == null) {
+		if (questionnaireFillingService == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
@@ -42,7 +42,7 @@ public class CancelAnswer extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 
-		questionnaireService.cancelQuestionnaire(user, productOfTheDay);
+		questionnaireFillingService.cancelQuestionnaire(user, productOfTheDay);
 		
 		//Remove the Stateful bean from session since it's been deleted by the container after the previous method
 		session.removeAttribute("QuestionBean");

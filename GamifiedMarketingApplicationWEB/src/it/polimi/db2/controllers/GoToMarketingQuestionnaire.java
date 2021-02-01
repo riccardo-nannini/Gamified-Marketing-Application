@@ -3,7 +3,6 @@ package it.polimi.db2.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -24,14 +23,10 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.db2.entities.Product;
-import it.polimi.db2.entities.Review;
 import it.polimi.db2.entities.User;
-import it.polimi.db2.entities.VariableQuestion;
 import it.polimi.db2.services.ProductService;
-import it.polimi.db2.services.QuestionnaireService;
+import it.polimi.db2.services.QuestionnaireFillingService;
 import it.polimi.db2.services.UserService;
-import it.polimi.db2.utilities.MarketingAnswers;
-
 
 
 @WebServlet("/GoToMarketing")
@@ -71,15 +66,15 @@ public class GoToMarketingQuestionnaire extends HttpServlet {
 			return;
 		}
 		
-		QuestionnaireService questionnaireService = (QuestionnaireService) request.getSession().getAttribute("QuestionBean");
+		QuestionnaireFillingService questionnaireFillingService = (QuestionnaireFillingService) request.getSession().getAttribute("QuestionBean");
 		
-		if(questionnaireService == null) {
+		if(questionnaireFillingService == null) {
 			try {
                 InitialContext ic = new InitialContext();
                  
-                questionnaireService = (QuestionnaireService) 
-                        ic.lookup("java:global/GamifiedMarketingApplicationWEB/QuestionnaireService!it.polimi.db2.services.QuestionnaireService");
-                request.getSession().setAttribute("QuestionBean", questionnaireService);
+                questionnaireFillingService = (QuestionnaireFillingService) 
+                        ic.lookup("java:global/GamifiedMarketingApplicationWEB/QuestionnaireFillingService!it.polimi.db2.services.QuestionnaireFillingService");
+                request.getSession().setAttribute("QuestionBean", questionnaireFillingService);
   
               } catch (NamingException e) {
                 throw new ServletException(e);
@@ -87,7 +82,7 @@ public class GoToMarketingQuestionnaire extends HttpServlet {
 		}
 		
 		
-		List<String> previousAnswer = questionnaireService.getPreviousAnswer();
+		List<String> previousAnswer = questionnaireFillingService.getPreviousAnswer();
 		
 		if (previousAnswer == null) {
 			previousAnswer = new ArrayList<>();

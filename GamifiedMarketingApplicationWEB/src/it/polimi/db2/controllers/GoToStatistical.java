@@ -30,11 +30,8 @@ import it.polimi.db2.entities.VariableQuestion;
 import it.polimi.db2.exceptions.OffensiveWordException;
 import it.polimi.db2.services.OffensiveWordService;
 import it.polimi.db2.services.ProductService;
-import it.polimi.db2.services.QuestionnaireService;
+import it.polimi.db2.services.QuestionnaireFillingService;
 import it.polimi.db2.services.UserService;
-import it.polimi.db2.utilities.MarketingAnswers;
-
-
 
 @WebServlet("/GoToStatistical")
 public class GoToStatistical extends HttpServlet {
@@ -70,8 +67,8 @@ public class GoToStatistical extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		
-		QuestionnaireService questionnaireService = (QuestionnaireService) request.getSession().getAttribute("QuestionBean");
-		if (questionnaireService == null) {
+		QuestionnaireFillingService questionnaireFillingService = (QuestionnaireFillingService) request.getSession().getAttribute("QuestionBean");
+		if (questionnaireFillingService == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
@@ -82,9 +79,9 @@ public class GoToStatistical extends HttpServlet {
 		}
 		try {
 			if (!offensiveWordService.checkOffensiveWords(marketingAnswers)) {
-				questionnaireService.storeMarketingAnswers(marketingAnswers);
+				questionnaireFillingService.storeMarketingAnswers(marketingAnswers);
 			} else {
-				questionnaireService.destroy();
+				questionnaireFillingService.destroy();
 				userService.blockUser(user);
 				String path = getServletContext().getContextPath() + "/blocked.html";
 				response.sendRedirect(path);
@@ -94,7 +91,7 @@ public class GoToStatistical extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return;
 		}
-	
+	//TODO credo manchi controllo che arrivino effettivamente tutte le risposte
 		
 		String path = "/WEB-INF/Statistical.html";
 		ServletContext servletContext = getServletContext();

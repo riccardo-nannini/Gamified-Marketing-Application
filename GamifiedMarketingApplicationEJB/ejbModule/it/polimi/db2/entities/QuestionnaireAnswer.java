@@ -5,14 +5,16 @@ import java.util.Map;
 
 import javax.persistence.*;
 
-/**
- * Entity implementation class for Entity: QuestionnaireAnswer
- *
- */
 @Entity
 @Table(name = "questionnarieanswer", schema = "gamified_db")
 @NamedQuery(name = "QuestionnaireAnswer.findByProduct",
-	query = "SELECT q FROM QuestionnaireAnswer q WHERE q.product.id = :prodId")
+	query = "SELECT q FROM QuestionnaireAnswer q WHERE q.product.id = :prodId and q.deleted = FALSE")
+@NamedQuery(name = "QuestionnaireAnswer.findLeaderboardByProduct", 
+query = "SELECT u.username, q.points FROM QuestionnaireAnswer q JOIN User u "
+		+ "WHERE q.product.id = :prodId and q.user.id = u.id "
+		+ "ORDER BY q.points DESC")
+@NamedQuery(name = "QuestionnaireAnswer.findByProductDeleted",
+query = "SELECT q FROM QuestionnaireAnswer q WHERE q.product.id = :prodId and q.deleted = TRUE")
 public class QuestionnaireAnswer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -113,7 +115,7 @@ public class QuestionnaireAnswer implements Serializable {
 		this.user = user;
 	}
 	
-	public Map<VariableQuestion, String> getVariableAnswer() {
+	public Map<VariableQuestion, String> getVariableAnswer() {	
 		return variableAnswer;
 	}
 

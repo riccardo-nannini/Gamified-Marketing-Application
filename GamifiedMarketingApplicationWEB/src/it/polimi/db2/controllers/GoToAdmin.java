@@ -37,6 +37,8 @@ public class GoToAdmin extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
+		//TODO anche sezione per i log utenti
+		
 		String path = "/WEB-INF/adminHome.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

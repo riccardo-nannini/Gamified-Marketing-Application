@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Product questionnaire info</title>
+<link rel="stylesheet" type="text/css" href="./CSS/style.css"/>
+</head>
+<body>
+	<div align="right">
+		<a th:href="@{/Logout}" class="button">Logout</a>
+		<br/><br/>
+		<a th:href="@{/GoToHomePage}" class="button">Go back to the home page</a> 
+	</div>
+	<h1>Questionnaire info about <span th:text="${product.getName()}"></span></h1>
+	
+	
+	<div th:each="answer : ${answers}">
+		<h2 th:text="${answer.getUser().getUsername()}"></h2>
+		<div th:each="question : ${questions}">
+			<div th:text="${question.getText()}"></div>
+			<div th:text="${answer.getVariableAnswer().get(question)}"></div><br/>
+		</div>
+	</div>
+	
+	<div th:each="deletedAnswer : ${deleted}">
+		<h2><span th:text="${deletedAnswer.getUser().getUsername()}"></span> deleted the questionnaire</h2><br/>
+	</div>
+	
+</body>
+</html>
