@@ -50,7 +50,7 @@ public class ProductService {
     
     public void deleteProduct(int id) {
     	Product product = em.find(Product.class, id);
-    	em.remove(product);
+    	if (product != null) em.remove(product);
     }
     
     public Review createReview(String text) {

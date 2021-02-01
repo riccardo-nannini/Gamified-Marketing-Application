@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Delete product</title>
+<link rel="stylesheet" type="text/css" href="./CSS/style.css"/>
+</head>
+<body>
+	<div align="right">
+		<a th:href="@{/Logout}" class="button">Logout</a>
+		<br/><br/>
+		<a th:href="@{/GoToHomePage}" class="button">Go back to the home page</a> 
+	</div>
+	<h1>Choose the product you want to delete</h1>
+	<br/>
+	
+	<form action="DeleteProduct" method="POST">
+		<tr th:each="product : ${products}">
+			<input type="radio" name="prod" th:field="${product.getId()}" th:value="${product.getId()}"/> 
+    		<label th:for="${product.getId()}" th:text="${product.getName()}"></label> <br/>  <br/>
+		</tr>
+		<br/>
+		<input type="submit" value="Choose product"/>
+	</form>
+</body>
+</html>
