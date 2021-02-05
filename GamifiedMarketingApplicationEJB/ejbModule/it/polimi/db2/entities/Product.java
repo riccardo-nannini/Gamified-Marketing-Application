@@ -1,6 +1,7 @@
 package it.polimi.db2.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,7 @@ public class Product implements Serializable {
 		this.name = name;
 		this.date = date;
 		this.image = image;
+		this.variableQuestions = new ArrayList<VariableQuestion>();
 	}
 	
 	
@@ -59,6 +61,10 @@ public class Product implements Serializable {
 
 	public void setVariableQuestions(List<VariableQuestion> variableQuestions) {
 		this.variableQuestions = variableQuestions;
+	}
+
+	public void addVariableQuestions(VariableQuestion question) {
+		this.variableQuestions.add(question);
 	}
 
 

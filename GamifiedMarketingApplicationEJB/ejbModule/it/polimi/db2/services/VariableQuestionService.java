@@ -1,6 +1,5 @@
 package it.polimi.db2.services;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,7 +20,8 @@ public class VariableQuestionService {
     public void CreateVariableQuestion(String text, int productId) {
     	Product product = em.find(Product.class, productId);
     	VariableQuestion variableQuestion = new VariableQuestion(text, product);
-    	em.persist(variableQuestion);
+    	product.addVariableQuestions(variableQuestion);
+    	em.persist(product);
     }
 
 }
