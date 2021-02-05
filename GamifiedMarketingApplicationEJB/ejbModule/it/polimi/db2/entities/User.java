@@ -1,6 +1,7 @@
 package it.polimi.db2.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -44,13 +45,16 @@ public class User implements Serializable {
 		this.email = email;
 		this.role = "User";
 		this.blocked = false;
+		this.logs = new ArrayList<Log>();
 	} 
+	
+	public void addLog(Log log) {
+		this.logs.add(log);
+	}
 
 	public int getId() {
 		return id;
 	}
-
-
 
 
 	public void setId(int id) {

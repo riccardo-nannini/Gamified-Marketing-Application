@@ -5,6 +5,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.security.auth.login.CredentialException;
@@ -25,6 +27,8 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.db2.entities.User;
 import it.polimi.db2.exceptions.CredentialsException;
+import it.polimi.db2.exceptions.UsernamesException;
+import it.polimi.db2.services.LogService;
 import it.polimi.db2.services.UserService;
 
 @WebServlet("/RegisterUser")
@@ -33,6 +37,8 @@ public class Register extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.polimi.db2.services/UserService")
 	private UserService userService;
+	@EJB(name = "it.polimi.db2.services/LogService")
+	private LogService logService;
 
 	public Register() {
 		super();
@@ -54,11 +60,16 @@ public class Register extends HttpServlet {
 		String password = null;
 		String repeat_password = null;
 		String email = null;
-
-		username = request.getParameter("username");
-		password = request.getParameter("pwd");
-		repeat_password = request.getParameter("repeatpwd");
-		email = request.getParameter("email");
+		
+		try {
+			username = request.getParameter("username");
+			password = request.getParameter("pwd");
+			repeat_password = request.getParameter("repeatpwd");
+			email = request.getParameter("email");
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing value/s");
+			return;
+		}
 
 		User user = null;
 		
@@ -66,39 +77,63 @@ public class Register extends HttpServlet {
 		
 		String errorMessage = null;
 		
+		//password = repeat passowrd
 		if (!password.contentEquals(repeat_password)) {
 			errorMessage = "Mismatching between the fields password and repeat password";
+
+		//valid email format
 		} else {
 			if (!checkEmailValidity(email)) {
 				errorMessage = "Email address is not well formatted";
+
+			//username uniqueness
 			} else {
+				List<String> usernames = null;
 				try {
-					user = userService.checkCredentials(username, password);
-				} catch (CredentialsException e) {
+					usernames = userService.findAllUsernames();
+				} catch (UsernamesException e) {
 					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					e.printStackTrace();
 					return;
 				}
+				if (usernames.contains(username)) {
+					errorMessage = "Please select another username";
 
-				if (user != null) {
-					errorMessage = "You already have an account, please log in.";
+				//not pre-existing account 
 				} else {
-					user = userService.registerUser(username, password, email);
-					request.getSession().setAttribute("user", user);
-					path = getServletContext().getContextPath() + "/GoToHomePage";
-					response.sendRedirect(path);
+					try {
+						user = userService.checkCredentials(username, password);
+					} catch (CredentialsException e) {
+						response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+						e.printStackTrace();
+						return;
+					}
+					if (user != null) {
+						errorMessage = "You already have an account, please log in.";
+						
+					//create account	
+					} else {
+						user = userService.registerUser(username, password, email);
+						request.getSession().setAttribute("user", user);
+						path = getServletContext().getContextPath() + "/GoToHomePage";
+						
+						//store log timestamp
+						Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+						logService.createLog(timestamp,user);
+						
+						response.sendRedirect(path);
+					}
 				}
 			}
 		}
 		
-		//se c'è stato qualche errore torno all'index 
+		//if there were an error, return to the register page with the right error message
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("errorMsgRegister", errorMessage);
 		path = "/index.html";
 		templateEngine.process(path, ctx, response.getWriter());
 	}
-
 
 	private boolean checkEmailValidity(String email) {
 		String[] splitted = email.split("@");

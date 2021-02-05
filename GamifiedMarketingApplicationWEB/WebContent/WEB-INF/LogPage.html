@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Logs Page</title>
+<link rel="stylesheet" type="text/css" media="all" href="./CSS/style.css" />
+</head>
+<body>
+	<div align="right">
+		<a th:href="@{/Logout}" class="button">Logout</a>
+		<br/><br/>
+		<a th:href="@{/GoToHomePage}" class="button">Go home page</a> 
+		<br/><br/>
+		<a th:href="@{/GoToAdmin}" class="button">Go to admin home page</a>
+		
+	</div>
+	<h1>User logs page</h1>
+	<p>Logs list:</p> 
+	<tr th:each="result: ${results}">
+    	-User: <td th:text="${result[1]}" /> <br/> 
+    	-Log timestamp: <td th:text="${result[0]}" /> <br/><br/>
+	</tr>
+</body>
+</html>

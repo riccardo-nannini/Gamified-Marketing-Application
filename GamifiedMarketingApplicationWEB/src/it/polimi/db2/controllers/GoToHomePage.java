@@ -58,6 +58,17 @@ public class GoToHomePage extends HttpServlet {
 		if (productOfTheDay.size() == 0) {
 			path = "/WEB-INF/HomeNoProduct.html";
 		} else {
+			
+			//Only if we come from the forward of the goToMarketingQuestionnaire as the user has already compiled the questionnaire of the day
+			String message = (String) request.getAttribute("message");
+			if (message != null) {
+				if (message.contentEquals("questionnaireJustCompiled")) {
+					ctx.setVariable("message",
+							"Product of the day's questionnaire already compiled, the button below is disabled");
+				}
+			}
+			
+			
 			path = "/WEB-INF/Home.html";
 			ctx.setVariable("product", productOfTheDay.get(0));
 		}

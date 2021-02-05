@@ -2,6 +2,7 @@ package it.polimi.db2.controllers;
 
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -19,6 +20,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.db2.entities.User;
 import it.polimi.db2.exceptions.CredentialsException;
+import it.polimi.db2.services.LogService;
 import it.polimi.db2.services.UserService;
 
 import javax.persistence.NonUniqueResultException;
@@ -29,6 +31,8 @@ public class CheckLogin extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.polimi.db2.services/UserService")
 	private UserService userService;
+	@EJB(name = "it.polimi.db2.services/LogService")
+	private LogService logService;
 	
 	public CheckLogin() {
 		super();
@@ -42,7 +46,7 @@ public class CheckLogin extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-//TODO aggiungere creazione log al login
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String usrn = null;
@@ -80,6 +84,10 @@ public class CheckLogin extends HttpServlet {
 			path = "/index.html";
 			templateEngine.process(path, ctx, response.getWriter());
 		} else {
+			//store log timestamp
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			logService.createLog(timestamp,user);
+			
 			request.getSession().setAttribute("user", user);
 			path = getServletContext().getContextPath() + "/GoToHomePage";
 			response.sendRedirect(path);

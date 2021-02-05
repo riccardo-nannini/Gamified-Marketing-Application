@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -58,11 +59,11 @@ public class GoToMarketingQuestionnaire extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		
-		//DOBBIAMO DIRGLI PERCHÈ È STATO RIMANDATO ALLA HOME AL POVERO UTENTE,
-		//IO PENSAVO CHE NON MI FUNZIONASSE QUALCOSA
+		
 		if (userService.hasAlreadyDoneSurvey(productOfTheDay, user.getId())) {
-			String path = getServletContext().getContextPath() + "/GoToHomePage";
-			response.sendRedirect(path);
+			request.setAttribute("message", "questionnaireJustCompiled");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/GoToHomePage");
+			dispatcher.forward(request, response);
 			return;
 		}
 		

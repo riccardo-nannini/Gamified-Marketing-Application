@@ -12,6 +12,7 @@ import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.QuestionnaireAnswer;
 import it.polimi.db2.entities.User;
 import it.polimi.db2.exceptions.CredentialsException;
+import it.polimi.db2.exceptions.UsernamesException;
 
 @Stateless
 public class UserService {
@@ -36,6 +37,16 @@ public class UserService {
 		else if (uList.size() == 1)
 			return uList.get(0);
 		throw new CredentialsException("More than one user registered with same credentials");
+	}
+	
+	public List<String> findAllUsernames() throws UsernamesException {
+		List<String> usernames;
+		try {
+			usernames = em.createQuery("SELECT u.username FROM User u").getResultList();
+		} catch (PersistenceException e) {
+			throw new UsernamesException("Cound not retrieve the usernames");
+		}
+		return usernames;
 	}
 	
 	public User registerUser(String username, String password, String email) {
