@@ -18,7 +18,7 @@
 	<p> The product of the day is: <b th:text="${product.name}"></b>
 	<br/>
 	<img alt="photo"
-			th:src="*{'data:image/png;base64,'+ product.getImageData()}" width="400" height="400">
+			th:src="*{'data:image/png;base64,'+ product.getImageData()}" width="400" height="auto">
 	<br/>
 	Product reviews:
 	<br/>

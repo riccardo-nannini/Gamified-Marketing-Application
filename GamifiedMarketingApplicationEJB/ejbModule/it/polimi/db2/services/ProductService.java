@@ -27,14 +27,7 @@ public class ProductService {
     public ProductService() {
     }
     
-    public List<Product> findAllProducts() {
-		List<Product> products = null;
-		products = em.createNamedQuery("Product.findAll", Product.class).getResultList();
-		return products;
-	}
     
-    //DOVREBBE RESISTITUIRE UN SOLO PRODOTTO (FARE CONTROLLI, ANCHE NEL MOMENTO IN CUI SE NE INSERISCE UNO NUOVO)
-    //FORSE MEGLIO MANTENERE COSÌ, MAGARI UN GIORNO CI SARANNO PIÙ PRODOTTI PER DATA
     public List<Product> findProductsByDate(Date date) {
 		List<Product> products = em
 				.createNamedQuery("Product.findByDate", Product.class)
@@ -52,12 +45,7 @@ public class ProductService {
     	Product product = em.find(Product.class, id);
     	if (product != null) em.remove(product);
     }
-    
-    public Review createReview(String text) {
-    	Review review = new Review(text);
-    	return review;
-    }
-    
+        
     
     public Product findProductById(int prodId) {
     	return(em.find(Product.class, prodId));

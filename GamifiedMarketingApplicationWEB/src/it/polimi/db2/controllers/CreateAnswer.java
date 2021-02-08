@@ -57,8 +57,7 @@ public class CreateAnswer extends HttpServlet {
 			answer1 = 0;
 		}
 		
-		//TODO in teoria uno potrebbe non specificare questi dati e salvare comunque il questionario di marketing da specifica
-		//quindi non è corretto lanciare eccezione
+
 		try {
 			answer2 = StringEscapeUtils.escapeJava(request.getParameter("answ2"));
 			answer3 = StringEscapeUtils.escapeJava(request.getParameter("answ3"));

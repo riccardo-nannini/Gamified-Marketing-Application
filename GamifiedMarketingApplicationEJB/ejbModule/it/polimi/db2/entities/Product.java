@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Table(name = "product", schema = "gamified_db")
 
 @NamedQueries({ 
-	@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
 	@NamedQuery(name = "Product.findByDate", query = "Select p FROM Product p WHERE p.date = :date"),
 	@NamedQuery(name = "Product.findPast", query = "Select p FROM Product p WHERE p.date < :date")})
 public class Product implements Serializable {
@@ -47,10 +46,10 @@ public class Product implements Serializable {
 	@Lob
 	private byte[] image;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "prodID", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "prodID", cascade = CascadeType.ALL)
 	private List<Review> reviews;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
 	private List<VariableQuestion> variableQuestions;
 
 

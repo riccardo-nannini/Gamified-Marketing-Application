@@ -9,6 +9,7 @@ import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
@@ -20,7 +21,9 @@ import it.polimi.db2.exceptions.QuestionnaireAnswerException;
 
 @Stateful
 public class QuestionnaireFillingService {
-	@PersistenceContext(unitName = "GamifiedMarketingApplicationEJB")
+	@PersistenceContext(unitName = "GamifiedMarketingApplicationEJB",
+			   type=PersistenceContextType.EXTENDED)
+
 	private EntityManager em;
     
 	private List<String> marketingAnswers = null;

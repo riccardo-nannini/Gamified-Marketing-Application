@@ -57,12 +57,17 @@ public class CreateProduct extends HttpServlet {
 		int numberOfVariableQuestions = 0;
 		byte[] imgByteArray;
 		
-		name = StringEscapeUtils.escapeJava(request.getParameter("name"));
-		date = request.getParameter("date");
-		Part imgFile = request.getPart("picture");
-		InputStream imgContent = imgFile.getInputStream();
-		imgByteArray = ImageUtils.readImage(imgContent);
-		numberOfVariableQuestions = Integer.parseInt(request.getParameter("variableQuestionsNumber"));
+		try {
+			name = StringEscapeUtils.escapeJava(request.getParameter("name"));
+			date = request.getParameter("date");
+			Part imgFile = request.getPart("picture");
+			InputStream imgContent = imgFile.getInputStream();
+			imgByteArray = ImageUtils.readImage(imgContent);
+			numberOfVariableQuestions = Integer.parseInt(request.getParameter("variableQuestionsNumber"));
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing value/s");
+			return;
+		}
 		
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

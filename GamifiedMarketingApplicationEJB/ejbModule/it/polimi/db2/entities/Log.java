@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "log", schema = "gamified_db")
-@NamedQuery(name = "Log.findAll", query = "SELECT l FROM Log l")
 @NamedQuery(name = "Log.findUserLogs", query = "SELECT l.timestamp, u.username FROM Log l JOIN User u "
 										     + "WHERE l.user = u ORDER BY l.timestamp DESC")
 public class Log implements Serializable {

@@ -14,7 +14,7 @@ public class Review implements Serializable {
 		super();
 	}
 	
-	//BASTA?
+	
 	public Review(String text) {
 		this.text = text;
 	}

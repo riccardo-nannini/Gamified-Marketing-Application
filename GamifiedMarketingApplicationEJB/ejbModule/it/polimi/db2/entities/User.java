@@ -24,16 +24,13 @@ public class User implements Serializable {
 
 	private String email;
 
-	//POTREBBE ,DOVREBBE ESSERE UN ENUM
 	private String role;
 	
 	private Boolean blocked;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
 	private List<QuestionnaireAnswer> answers;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
-	private List<Log> logs; 
 
 	public User() {
 		super();
@@ -45,12 +42,9 @@ public class User implements Serializable {
 		this.email = email;
 		this.role = "User";
 		this.blocked = false;
-		this.logs = new ArrayList<Log>();
 	} 
 	
-	public void addLog(Log log) {
-		this.logs.add(log);
-	}
+
 
 	public int getId() {
 		return id;
@@ -138,12 +132,5 @@ public class User implements Serializable {
 		this.answers = answers;
 	}
 
-	public List<Log> getLogs() {
-		return logs;
-	}
-
-	public void setLogs(List<Log> logs) {
-		this.logs = logs;
-	}
    
 }

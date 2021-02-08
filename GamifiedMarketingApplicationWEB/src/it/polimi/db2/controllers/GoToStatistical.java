@@ -74,10 +74,11 @@ public class GoToStatistical extends HttpServlet {
 		}
 		
 		List<String> marketingAnswers = new ArrayList<String>();
-		for (int i = 0; i < productOfTheDay.getVariableQuestions().size(); i++) {
-			marketingAnswers.add(request.getParameter(Integer.toString(i)));
-		}
 		try {
+			for (int i = 0; i < productOfTheDay.getVariableQuestions().size(); i++) {
+				marketingAnswers.add(request.getParameter(Integer.toString(i)));
+			}
+
 			if (!offensiveWordService.checkOffensiveWords(marketingAnswers)) {
 				questionnaireFillingService.storeMarketingAnswers(marketingAnswers);
 			} else {
@@ -86,12 +87,13 @@ public class GoToStatistical extends HttpServlet {
 				String path = getServletContext().getContextPath() + "/blocked.html";
 				response.sendRedirect(path);
 			}
-			
 		} catch (OffensiveWordException e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return;
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing value/s");
+			return;
 		}
-	//TODO credo manchi controllo che arrivino effettivamente tutte le risposte
 		
 		String path = "/WEB-INF/Statistical.html";
 		ServletContext servletContext = getServletContext();

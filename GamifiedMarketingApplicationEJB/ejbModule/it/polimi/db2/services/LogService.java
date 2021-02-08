@@ -24,22 +24,10 @@ public class LogService {
     	
     }
     
-    public List<Log> findAll() throws LogException {
-    	List<Log> logs = null; 
-    	try {
-    		logs = em.createNamedQuery("Log.findAll", Log.class)
-    				.setMaxResults(20).getResultList();
-    		} catch (PersistenceException e) {
-				throw new LogException("Could not retrieve logs");
-			}
-    	if (logs.isEmpty()) return null;
-    	return logs;    	
-    }
     
-    public Log createLog(Timestamp timestamp, User user) {
+    public void createLog(Timestamp timestamp, User user) {
     	Log log = new Log(timestamp,user);
     	em.persist(log);
-    	return log;
     }
     
     //Retrieve all the logs timestamp with its user
