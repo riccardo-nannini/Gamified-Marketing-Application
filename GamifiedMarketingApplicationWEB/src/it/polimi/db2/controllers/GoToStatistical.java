@@ -91,7 +91,7 @@ public class GoToStatistical extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return;
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing value/s");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing value/s in the questionnaire answer");
 			return;
 		}
 		

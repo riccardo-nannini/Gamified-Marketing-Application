@@ -47,8 +47,8 @@ public class CreateAnswer extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		
 		int answer1;
-		String answer2;
-		String answer3;
+		String answer2 = null;
+		String answer3 = null;
 		
 		//if the age is not specified it is set to 0
 		try {
@@ -65,6 +65,9 @@ public class CreateAnswer extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect params");
 			return;		
 		}
+		
+		if (answer2 == null) answer2 = "N";
+		if (answer3 == null) answer3 = "n/d";	
 		
 		questionnaireFillingService.createQuestionnaireAnswer(answer1, answer2, answer3, user, productOfTheDay);
 
