@@ -1,4 +1,6 @@
 # Gamified Marketing Application 
+Riccardo Nannini<br/>
+[Antonio Ercolani](https://github.com/antonio-ercolani)<br/>
 Data Base 2 course - Polimi 2020-2021
 
 Web App that simulates a marketing application.
